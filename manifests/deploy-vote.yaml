@@ -1,0 +1,55 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: microservice-vote-sample
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: vote-deployment
+    spec:
+      containers:
+      - name: microservice-vote
+        image: microservice-vote:latest
+        ports:
+          - containerPort: 9080
+        imagePullPolicy: Never
+        volumeMounts:
+        - name: keystore
+          mountPath: /etc/wlp/config/keystore
+        - name: truststore
+          mountPath: /etc/wlp/config/truststore
+        - name: liberty-config
+          mountPath: /config/configDropins
+        imagePullPolicy: Never
+        readinessProbe:
+          httpGet:
+            path: /vote/nessProbe
+            port: 9080
+      volumes:
+      - name: keystore
+        secret:
+          secretName: wlp-keystore
+      - name: truststore
+        secret:
+          secretName: wlp-truststore
+      - name: liberty-config
+        configMap:
+          name: liberty-config
+          items:
+            - key: keystore.xml
+              path: defaults/keystore.xml
+            - key: logging.xml
+              path: defaults/logging.xml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vote-service
+  namespace: default
+spec:
+  ports:
+    - port: 9080
+  selector:
+    name: vote-deployment
