@@ -14,7 +14,7 @@ spec:
         image: microservice-vote:latest
         ports:
           - containerPort: 9080
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: keystore
           mountPath: /etc/wlp/config/keystore
