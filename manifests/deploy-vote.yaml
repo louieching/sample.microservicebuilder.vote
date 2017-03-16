@@ -22,7 +22,6 @@ spec:
           mountPath: /etc/wlp/config/truststore
         - name: liberty-config
           mountPath: /config/configDropins
-        imagePullPolicy: Never
         readinessProbe:
           httpGet:
             path: /vote/nessProbe
