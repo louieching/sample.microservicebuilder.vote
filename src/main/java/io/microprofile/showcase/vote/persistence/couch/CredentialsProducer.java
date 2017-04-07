@@ -20,14 +20,25 @@ import java.io.StringReader;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonString;
 
+import org.eclipse.microprofile.config.cdi.ConfigProperty;
+
 @ApplicationScoped
 public class CredentialsProducer {
-
+	
+	@Inject @ConfigProperty(name="dbUsername") String username;
+	@Inject @ConfigProperty(name="dbPassword") String password; 
+	@Inject @ConfigProperty(name="dbUrl") String url;
+	@Inject @ConfigProperty(name="CLOUDANT_SERVICE_SERVICE_HOST") String dbHost;
+	@Inject @ConfigProperty(name="CLOUDANT_SERVICE_SERVICE_PORT") String dbPort;
+	//private String url;
+	
+	
     @Produces
     public Credentials newCredentials() {
         Credentials credentials = null;
@@ -63,11 +74,15 @@ public class CredentialsProducer {
     }
 
     private Credentials useEnv() {
-
-        String username = System.getenv("dbUsername");
+    	
+    	// Introduced Config API to inject DB credentials.
+    	
+        /*String username = System.getenv("dbUsername");
         String password = System.getenv("dbPassword");
-        String url = System.getenv("dbUrl");
-
+        String url = System.getenv("dbUrl");*/
+    	
+    	//url="http://"+dbHost+":"+dbPort;
+    	System.out.println("The DB URL is : "+url +" dbUsername : "+username +" password: "+password);
         if (username != null && password != null && url != null) {
             return new Credentials(username, password, url);
         } else

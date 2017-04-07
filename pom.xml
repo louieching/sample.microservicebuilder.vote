@@ -87,6 +87,20 @@
             <version>1.0.4</version>
             <scope>test</scope>
         </dependency>
+		<dependency>
+            <groupId>net.wasdev.wlp.starters.ms-builder</groupId>
+            <artifactId>config</artifactId>
+            <version>0.1</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.wasdev.wlp.starters.ms-builder</groupId>
+            <artifactId>faulttolerance</artifactId>
+            <version>0.1</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>        
         <dependency>
             <groupId>com.github.wasdev.microprofile-conference</groupId>
             <artifactId>demo-bootstrap</artifactId>
@@ -180,7 +194,6 @@
                     <reportsDirectory>${project.build.directory}/test-reports/it</reportsDirectory>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

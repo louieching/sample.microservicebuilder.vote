@@ -27,6 +27,7 @@ import javax.ws.rs.core.Response;
 
 import io.microprofile.showcase.vote.api.AttendeeProvider;
 import io.microprofile.showcase.vote.api.SessionRatingProvider;
+import io.microprofile.showcase.vote.utils.ConnectException;
 
 @Dependent
 public class CouchConnection {
@@ -50,7 +51,7 @@ public class CouchConnection {
     boolean connected = false;
     private String url;
 
-    public boolean connect(String dbName) {
+    public boolean connect(String dbName) throws ConnectException{
         if (!connected && credentials != null) {
             this.dbName = dbName;
             this.url = credentials.getUrl();
@@ -100,9 +101,15 @@ public class CouchConnection {
                 if (connected) {
                     System.out.println("Connected to Couch DB: " + dbName);
                 }
-            } catch (Throwable t) {
+            }catch (Exception ce) {
+            	//ce.printStackTrace();
+                System.out.println("Unable to connect to couch database: " + dbName +" : Fault tolerance API handles with retry policy and fail safe");
+                throw new ConnectException(ce.getMessage());
+            } 
+            catch (Throwable t) {
                 t.printStackTrace();
                 System.out.println("Unable to connect to couch database: " + dbName);
+                throw t;
             }
         }
         return connected;
