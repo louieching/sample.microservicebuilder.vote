@@ -28,7 +28,7 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.faulttolerance.Executor;
 import org.eclipse.microprofile.faulttolerance.RetryPolicy;
 
-import com.ibm.websphere.microprofile.faulttolerance.FaultToleranceFactory;
+import com.ibm.websphere.microprofile.faulttolerance.FaultToleranceProvider;
 
 import io.microprofile.showcase.vote.api.PersistenceProvider;
 import io.microprofile.showcase.vote.api.PersistenceTypes;
@@ -61,7 +61,7 @@ public class CouchAttendeeDAO implements AttendeeDAO {
 	@PostConstruct
 	public void connect() {
 
-		RetryPolicy retryPolicy1 = FaultToleranceFactory.getFaultToleranceType(RetryPolicy.class);
+		RetryPolicy retryPolicy1 = FaultToleranceProvider.getFaultToleranceType(RetryPolicy.class);
 		int delayDuration = 6;
 		int maxRetries = 15;
 		Duration duration = Duration.ofSeconds(delayDuration);
@@ -69,7 +69,7 @@ public class CouchAttendeeDAO implements AttendeeDAO {
 		// Create an Execution object. Configure it to connect to a "Primary",
 		// with our RetryPolicy
 		// and with a fallback to connect to a "HashMap"
-		Executor executor = FaultToleranceFactory.getFaultToleranceType(Executor.class);
+		Executor executor = FaultToleranceProvider.getFaultToleranceType(Executor.class);
 
 		// Main Service
 		Callable<String> mainService = () -> {

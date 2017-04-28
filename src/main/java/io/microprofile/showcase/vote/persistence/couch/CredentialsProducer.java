@@ -26,16 +26,16 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonString;
 
-import org.eclipse.microprofile.config.cdi.ConfigProperty;
+import org.eclipse.microprofile.config.ConfigProperty;
 
 @ApplicationScoped
 public class CredentialsProducer {
 	
-	@Inject @ConfigProperty(name="dbUsername") String username;
-	@Inject @ConfigProperty(name="dbPassword") String password; 
-	@Inject @ConfigProperty(name="dbUrl") String url;
-	@Inject @ConfigProperty(name="CLOUDANT_SERVICE_SERVICE_HOST") String dbHost;
-	@Inject @ConfigProperty(name="CLOUDANT_SERVICE_SERVICE_PORT") String dbPort;
+	@Inject @ConfigProperty("dbUsername") String username;
+	@Inject @ConfigProperty("dbPassword") String password; 
+	@Inject @ConfigProperty("dbUrl") String url;
+	@Inject @ConfigProperty("CLOUDANT_SERVICE_SERVICE_HOST") String dbHost;
+	@Inject @ConfigProperty("CLOUDANT_SERVICE_SERVICE_PORT") String dbPort;
 	//private String url;
 	
 	
