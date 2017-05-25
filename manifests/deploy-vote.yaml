@@ -81,7 +81,7 @@ spec:
     spec:
       containers:
       - name: cloudant-db
-        image: ibmcom/cloudant-developer
+        image: ibmcom/cloudant-developer:1.0.1
         env:
         - name: dbUsername
           valueFrom:
