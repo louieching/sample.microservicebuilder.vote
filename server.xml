@@ -3,8 +3,8 @@
     <!-- Enable features -->
     <featureManager>
       <feature>microProfile-1.0</feature>
-      <feature>microProfileConfig-0.1</feature>
-      <feature>microProfileFaultTolerance-0.1</feature>
+      <feature>mpConfig-1.0</feature>
+      <feature>mpFaultTolerance-1.0</feature>
     </featureManager>
 
     <httpEndpoint id="defaultHttpEndpoint"
