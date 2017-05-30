@@ -79,7 +79,7 @@ spec:
     spec:
       containers:
       - name: cloudant-db
-        image: ibmcom/cloudant-developer
+        image: ibmcom/cloudant-developer:1.0.1
         env:
         - name: dbUsername
           valueFrom:
@@ -126,6 +126,16 @@ spec:
       - name: microservice-vote
         image: microservice-vote:latest
         env:
+        - name: MB_KEYSTORE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mb-keystore-password
+              key: password
+        - name: MB_TRUSTSTORE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mb-truststore-password
+              key: password
         - name: dbUsername
           valueFrom:
             secretKeyRef:
@@ -145,17 +155,6 @@ spec:
         ports:
           - containerPort: 9080
         imagePullPolicy: IfNotPresent
-        env:
-          - name: MB_KEYSTORE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mb-keystore-password
-                key: password
-          - name: MB_TRUSTSTORE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mb-truststore-password
-                key: password
         volumeMounts:
         - name: keystore
           mountPath: /etc/wlp/config/keystore
