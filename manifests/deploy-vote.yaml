@@ -175,7 +175,7 @@ spec:
           secretName: mb-truststore
       - name: liberty-config
         configMap:
-          name: liberty-config
+          name: liberty-logging-config
           items:
             - key: keystore.xml
               path: defaults/keystore.xml
