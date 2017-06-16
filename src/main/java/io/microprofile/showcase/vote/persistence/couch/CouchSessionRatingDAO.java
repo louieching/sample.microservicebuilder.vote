@@ -61,7 +61,7 @@ public class CouchSessionRatingDAO implements SessionRatingDAO {
     private int executionCounter = 0;
     @PostConstruct
     public void connect() {
-		RetryPolicy retryPolicy1 = FaultToleranceProvider.getFaultToleranceType(RetryPolicy.class);
+		RetryPolicy retryPolicy1 = FaultToleranceProvider.newRetryPolicy();
 		int delayDuration = 6;
 		int maxRetries = 15;
 		Duration duration = Duration.ofSeconds(delayDuration);
@@ -69,7 +69,7 @@ public class CouchSessionRatingDAO implements SessionRatingDAO {
 		// Create an Execution object. Configure it to connect to a "Primary",
 		// with our RetryPolicy
 		// and with a fallback to connect to a "HashMap"
-		Executor executor = FaultToleranceProvider.getFaultToleranceType(Executor.class);
+		Executor executor = FaultToleranceProvider.newExecutor();
 		// Main Service
 		Callable<String> mainService = () -> {
 			executionCounter++;
