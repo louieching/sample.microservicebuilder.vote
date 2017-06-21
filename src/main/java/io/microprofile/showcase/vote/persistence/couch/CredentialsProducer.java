@@ -28,8 +28,6 @@ import javax.json.JsonString;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-
-
 @ApplicationScoped
 public class CredentialsProducer {
 	
