@@ -35,7 +35,7 @@ import io.microprofile.showcase.vote.utils.ConnectException;
 @ApplicationScoped
 @Persistent
 public class CouchAttendeeDAO implements AttendeeDAO {
-	
+
     @Inject
     CouchConnection couch;
     
