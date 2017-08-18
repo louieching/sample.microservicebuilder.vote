@@ -17,6 +17,7 @@
 package io.microprofile.showcase.vote.persistence.couch;
 
 import java.io.StringReader;
+import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -31,11 +32,11 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ApplicationScoped
 public class CredentialsProducer {
 	
-	@Inject @ConfigProperty(name="dbUsername") String username;
-	@Inject @ConfigProperty(name="dbPassword") String password; 
-	@Inject @ConfigProperty(name="dbUrl") String url;
-	@Inject @ConfigProperty(name="CLOUDANT_SERVICE_SERVICE_HOST") String dbHost;
-	@Inject @ConfigProperty(name="CLOUDANT_SERVICE_SERVICE_PORT") String dbPort;
+	@Inject @ConfigProperty(name="dbUsername") Optional<String> username;
+	@Inject @ConfigProperty(name="dbPassword") Optional<String> password; 
+	@Inject @ConfigProperty(name="dbUrl") Optional<String> url;
+	@Inject @ConfigProperty(name="CLOUDANT_SERVICE_SERVICE_HOST") Optional<String> dbHost;
+	@Inject @ConfigProperty(name="CLOUDANT_SERVICE_SERVICE_PORT") Optional<String> dbPort;
 	//private String url;
 	
 	
@@ -83,10 +84,12 @@ public class CredentialsProducer {
     	
     	//url="http://"+dbHost+":"+dbPort;
     	System.out.println("The DB URL is : "+url +" dbUsername : "+username +" password: "+password);
-        if (username != null && password != null && url != null) {
-            return new Credentials(username, password, url);
-        } else
+    	if(username.isPresent() && password.isPresent() && url.isPresent()){
+            return new Credentials(username.get(), password.get(), url.get());
+    	}
+        else{
             return null;
+        }
     }
 
 }

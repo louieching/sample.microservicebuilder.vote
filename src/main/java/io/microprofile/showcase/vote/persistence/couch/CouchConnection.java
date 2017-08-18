@@ -86,8 +86,12 @@ public class CouchConnection {
                             System.out.println("Couch DB Created: " + dbName);
                             connected = true;
                         }
-                    } else {
-                        System.out.println("Unable to connect to couch database: " + response.readEntity(String.class));
+                    } else if(code==503){
+                        System.out.println("Couch DB server is running but DB service is unavailable, Fault tolerance API handles with retry policy and fail safe: " + response.readEntity(String.class) +" response code is: "+code);
+                        throw new ConnectException("503 :CouchDB service unavailable" );
+                    }
+                    else {
+                        System.out.println("Unable to connect to couch database: " + response.readEntity(String.class) +" response code is: "+code);
                     }
                 } else {
 //					MultivaluedMap<String, Object> headers = response.getHeaders();

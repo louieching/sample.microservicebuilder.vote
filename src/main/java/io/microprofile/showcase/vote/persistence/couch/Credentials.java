@@ -30,7 +30,7 @@ public class Credentials {
         this.username = username;
         this.password = password;
 
-        if (this.username == null || this.password == null || this.url == null) {
+        if ((this.username == null || this.password == null || this.url == null) || (username.trim().length()==0 || password.trim().length()==0 || url.trim().length()==0 )){
             throw new RuntimeException("Database cannot be accessed at this time, something is null. Passed in variables were "
                                        + "username=" + username + ", password="
                                        + ((password == null) ? "null" : "(non-null password)") + ", url=" + url);
