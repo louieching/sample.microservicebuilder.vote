@@ -100,7 +100,15 @@
             <version>0.1</version>
             <type>jar</type>
             <scope>provided</scope>
-        </dependency>        
+        </dependency>
+		<dependency>
+            <groupId>net.wasdev.wlp.starters.ms-builder</groupId>
+            <artifactId>metrics</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+                
         <dependency>
             <groupId>com.github.wasdev.microprofile-conference</groupId>
             <artifactId>demo-bootstrap</artifactId>
