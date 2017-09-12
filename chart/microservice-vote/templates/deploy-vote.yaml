@@ -1,3 +1,4 @@
+{{ if ne .Release.IsInstall false }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -16,7 +17,9 @@ spec:
           limits:
             cpu: 100m
       restartPolicy: Never
+{{ end }}
 ---
+{{ if and (ne .Release.IsInstall false) (ne .Values.test true) }}
 kind: PersistentVolume
 apiVersion: v1
 metadata:
@@ -30,7 +33,9 @@ spec:
     - ReadWriteMany
   hostPath:
     path: "/var/cloudant"
+{{ end }}
 ---
+{{ if and (ne .Release.IsInstall false) (ne .Values.test true) }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -43,7 +48,9 @@ spec:
   resources:
     requests:
       storage: 3Gi
+{{ end }}
 ---
+{{ if ne .Values.test true }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -55,7 +62,9 @@ spec:
       nodePort: 31111
   selector:
     name: cloudant-deployment
+{{ end }}
 ---
+{{ if ne .Values.test true }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -65,6 +74,7 @@ spec:
     - port: 9080
   selector:
     name: vote-deployment
+{{ end }}
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -131,12 +141,13 @@ spec:
     spec:
       containers:
       - name: microservice-vote
-        image: microservice-vote:latest
+        image: {{ default "microservice-vote:latest" .Values.image }}
         env:
         - name: USERNAME
           value: admin
         - name: PASSWORD
           value: password
+{{ if ne .Values.test true }}
         - name: MB_KEYSTORE_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -163,16 +174,19 @@ spec:
           value: $CLOUDANT_SERVICE_SERVICE_PORT
         command: ["/bin/sh","-c"]
         args: ["if [ ! -z $dbPassword ]; then export dbUrl=http://$CLOUDANT_SERVICE_SERVICE_HOST:$CLOUDANT_SERVICE_SERVICE_PORT; exec /opt/ibm/wlp/bin/server run defaultServer; fi;"]
+{{ end }}
         ports:
           - containerPort: 9080
         imagePullPolicy: IfNotPresent
         volumeMounts:
+{{ if ne .Values.test true }}
         - name: keystore
           mountPath: /etc/wlp/config/keystore
         - name: truststore
           mountPath: /etc/wlp/config/truststore
         - name: liberty-config
           mountPath: /config/configDropins
+{{ end }}
         readinessProbe:
           httpGet:
             path: /vote/nessProbe
@@ -183,6 +197,7 @@ spec:
             port: 9080
           initialDelaySeconds: 120
           periodSeconds: 15
+{{ if ne .Values.test true }}
       volumes:
       - name: keystore
         secret:
@@ -198,3 +213,4 @@ spec:
               path: defaults/keystore.xml
             - key: logging.xml
               path: defaults/logging.xml
+{{ end }}
