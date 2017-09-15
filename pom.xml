@@ -108,6 +108,13 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
+		<dependency>
+            <groupId>net.wasdev.wlp.starters.ms-builder</groupId>
+            <artifactId>health</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
                 
         <dependency>
             <groupId>com.github.wasdev.microprofile-conference</groupId>
