@@ -40,6 +40,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Metered;
 
 import io.microprofile.showcase.vote.model.Attendee;
 import io.microprofile.showcase.vote.model.SessionRating;
@@ -52,6 +53,7 @@ import io.microprofile.showcase.vote.utils.Log;
 @ApplicationScoped
 @Path("/")
 @Log
+@Metered(name="io.microprofile.showcase.vote.api.SessionVote.Type.Metered")
 public class SessionVote {
 
     private @Inject @NonPersistent AttendeeDAO hashMapAttendeeDAO;
