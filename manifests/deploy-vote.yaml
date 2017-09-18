@@ -128,6 +128,10 @@ spec:
       - name: microservice-vote
         image: microservice-vote:latest
         env:
+        - name: USERNAME
+          value: admin
+        - name: PASSWORD
+          value: password
         - name: MB_KEYSTORE_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -168,6 +172,12 @@ spec:
           httpGet:
             path: /vote/nessProbe
             port: 9080
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9080
+          initialDelaySeconds: 120
+          periodSeconds: 15
       volumes:
       - name: keystore
         secret:
