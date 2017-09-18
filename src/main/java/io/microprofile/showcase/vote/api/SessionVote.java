@@ -53,7 +53,7 @@ import io.microprofile.showcase.vote.utils.Log;
 @ApplicationScoped
 @Path("/")
 @Log
-@Metered(name="io.microprofile.showcase.vote.api.SessionVote.Type.Metered")
+@Metered(name="io.microprofile.showcase.vote.api.SessionVote.Type.Metered",tags="app=vote")
 public class SessionVote {
 
     private @Inject @NonPersistent AttendeeDAO hashMapAttendeeDAO;
@@ -66,7 +66,7 @@ public class SessionVote {
     private SessionRatingDAO selectedSessionRatingDAO;
     
     @PostConstruct
-    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.PostConstruct.connectToDAO.monotonic.absolute(true)",monotonic=true,absolute=true)
+    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.PostConstruct.connectToDAO.monotonic.absolute(true)",monotonic=true,absolute=true,tags="app=vote")
     private void connectToDAO() {
         if (couchDBAttendeeDAO.isAccessible()) {
             selectedAttendeeDAO = couchDBAttendeeDAO;
@@ -88,7 +88,7 @@ public class SessionVote {
     @GET
     @Path("/nessProbe")
     @Produces(TEXT_PLAIN)
-    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.nessProbe.monotonic.absolute(true)",monotonic=true,absolute=true)
+    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.nessProbe.monotonic.absolute(true)",monotonic=true,absolute=true,tags="app=vote")
     //@Counted(name="io.microprofile.showcase.vote.api.SessionVote.nessProbe.monotonic.absolute(false)",monotonic=true,absolute=false)
     public Response nessProbe() throws Exception {
 
@@ -104,7 +104,7 @@ public class SessionVote {
     @Path("/attendee")
     @Produces(APPLICATION_JSON)
     @Consumes(APPLICATION_JSON)
-    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.registerAttendee.monotonic.absolute(true)",monotonic=true,absolute=true)
+    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.registerAttendee.monotonic.absolute(true)",monotonic=true,absolute=true,tags="app=vote")
     public Attendee registerAttendee(Attendee name) {
         Attendee attendee = selectedAttendeeDAO.createNewAttendee(name);
         return attendee;
@@ -124,7 +124,7 @@ public class SessionVote {
     @GET
     @Path("/attendee")
     @Produces(APPLICATION_JSON)
-    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.getAllAttendees.monotonic.absolute(true)",monotonic=true,absolute=true)
+    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.getAllAttendees.monotonic.absolute(true)",monotonic=true,absolute=true,tags="app=vote")
     public Collection<Attendee> getAllAttendees() {
         return selectedAttendeeDAO.getAllAttendees();
     }
@@ -132,7 +132,7 @@ public class SessionVote {
     @GET
     @Path("/attendee/{id}")
     @Produces(APPLICATION_JSON)
-    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.getAttendee.monotonic.absolute(true)",monotonic=true,absolute=true)
+    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.getAttendee.monotonic.absolute(true)",monotonic=true,absolute=true,tags="app=vote")
     public Attendee getAttendee(@PathParam("id") String id) {
         Attendee attendee = selectedAttendeeDAO.getAttendee(id);
         if (attendee == null) {
@@ -157,7 +157,7 @@ public class SessionVote {
     @Path("/rate")
     @Produces(APPLICATION_JSON)
     @Consumes(APPLICATION_JSON)
-    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.rateSession.monotonic.absolute(true)",monotonic=true,absolute=true)
+    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.rateSession.monotonic.absolute(true)",monotonic=true,absolute=true,tags="app=vote")
     public SessionRating rateSession(SessionRating sessionRating) {
         String attendeeId = sessionRating.getAttendeeId();
         Attendee attendee = selectedAttendeeDAO.getAttendee(attendeeId);
@@ -172,7 +172,7 @@ public class SessionVote {
     @GET
     @Path("/rate")
     @Produces(APPLICATION_JSON)
-    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.getAllSessionRatings.monotonic.absolute(true)",monotonic=true,absolute=true)
+    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.getAllSessionRatings.monotonic.absolute(true)",monotonic=true,absolute=true,tags="app=vote")
     public Collection<SessionRating> getAllSessionRatings() {
         return selectedSessionRatingDAO.getAllRatings();
     }
@@ -223,7 +223,7 @@ public class SessionVote {
     @Path("/ratingsBySession")
     @Produces(APPLICATION_JSON)
     @Consumes(APPLICATION_JSON)
-    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.allSessionVotes.monotonic.absolute(true)",monotonic=true,absolute=true)
+    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.allSessionVotes.monotonic.absolute(true)",monotonic=true,absolute=true,tags="app=vote")
     public Collection<SessionRating> allSessionVotes(@QueryParam("sessionId") String sessionId) {
         return selectedSessionRatingDAO.getRatingsBySession(sessionId);
     }
@@ -232,7 +232,7 @@ public class SessionVote {
     @Path("/averageRatingBySession")
     @Produces(APPLICATION_JSON)
     @Consumes(APPLICATION_JSON)
-    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.sessionRatingAverage.monotonic.absolute(true)",monotonic=true,absolute=true)
+    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.sessionRatingAverage.monotonic.absolute(true)",monotonic=true,absolute=true,tags="app=vote")
     public double sessionRatingAverage(@QueryParam("sessionId") String sessionId) {
         Collection<SessionRating> allSessionVotes = allSessionVotes(sessionId);
         int denominator = allSessionVotes.size();
