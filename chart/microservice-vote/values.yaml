@@ -1,1 +1,4 @@
+image:
+  repository: "microservice-vote"
+  tag: "latest"
 test: false
