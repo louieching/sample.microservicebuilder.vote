@@ -141,7 +141,7 @@ spec:
     spec:
       containers:
       - name: microservice-vote
-        image: {{ default "microservice-vote:latest" .Values.image }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         env:
         - name: USERNAME
           value: admin
