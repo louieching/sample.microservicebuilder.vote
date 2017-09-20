@@ -1,10 +1,16 @@
 package io.microprofile.showcase.vote.health;
 
-import javax.enterprise.context.ApplicationScoped;
+import java.util.Optional;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.health.Health;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
+
+import io.microprofile.showcase.vote.api.SessionVote;
 
 /**
  * 
@@ -14,9 +20,22 @@ import org.eclipse.microprofile.health.HealthCheckResponse;
 @Health
 @ApplicationScoped
 public class FailedHealthCheck implements HealthCheck{
+	
+	@Inject 
+	private SessionVote sessionVote;
+
+	@Inject 
+	@ConfigProperty(name="isAppDown") Optional<String> isAppDown;
     @Override
     public HealthCheckResponse call() {
-        return HealthCheckResponse.named("Vote:failed-check").down().build();
-    }
+		try {
+			if(sessionVote.nessProbe().getStatus()!=200 || ((isAppDown.isPresent()) && (isAppDown.get().equals("true")))) {
+				return HealthCheckResponse.named("Vote:failed-check").down().build();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return HealthCheckResponse.named("Vote:successful-check").up().build();
+	}
 
 }

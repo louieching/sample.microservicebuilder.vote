@@ -34,22 +34,19 @@
 
 	<repositories>
 		<repository>
-			<id>liberty-starter-maven-repo</id>
-			<name>liberty-starter-maven-repo</name>
-			<url>http://liberty-app-accelerator.wasdev.developer.ibm.com/start/api/v1/repo</url>
-		</repository>
-		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
 	</repositories>
 
 	<dependencies>
+		<!-- <dependency> <groupId>net.wasdev.wlp.starters.microprofile</groupId> 
+			<artifactId>provided-pom</artifactId> <version>0.0.1-SNAPSHOT</version> <type>pom</type> 
+			<scope>provided</scope> </dependency> -->
 		<dependency>
-			<groupId>net.wasdev.wlp.starters.microprofile</groupId>
-			<artifactId>provided-pom</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<type>pom</type>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>1.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -58,7 +55,18 @@
 			<version>1.2</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
+	  	<dependency>
+  			<groupId>javax.ws.rs</groupId>
+  			<artifactId>javax.ws.rs-api</artifactId>
+  			<version>2.0</version>
+  			<scope>provided</scope>
+  		</dependency>		
+        <dependency>
+            <groupId>javax.json</groupId>
+            <artifactId>javax.json-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
