@@ -81,6 +81,11 @@ spec:
       - name: cloudant-db
         image: ibmcom/cloudant-developer:1.0.1
         env:
+        - name: isAppDown
+          valueFrom:
+            configMapKeyRef:
+              name: appdown
+              key: appdown
         - name: dbUsername
           valueFrom:
             secretKeyRef:
