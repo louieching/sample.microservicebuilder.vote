@@ -42,6 +42,7 @@ import javax.ws.rs.core.Response;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Metered;
 
+import io.microprofile.showcase.vote.health.HealthCheckBean;
 import io.microprofile.showcase.vote.model.Attendee;
 import io.microprofile.showcase.vote.model.SessionRating;
 import io.microprofile.showcase.vote.persistence.AttendeeDAO;
@@ -64,6 +65,8 @@ public class SessionVote {
     
     private AttendeeDAO selectedAttendeeDAO;
     private SessionRatingDAO selectedSessionRatingDAO;
+    
+    private @Inject HealthCheckBean healthCheckBean;
     
     @PostConstruct
     @Counted(name="io.microprofile.showcase.vote.api.SessionVote.PostConstruct.connectToDAO.monotonic.absolute(true)",monotonic=true,absolute=true,tags="app=vote")
@@ -265,4 +268,14 @@ public class SessionVote {
     void clearAllRatings() {
         selectedSessionRatingDAO.clearAllRatings();
     }
+    
+    @POST
+    @Path("/updateHealthStatus")
+    @Produces(TEXT_PLAIN)
+    @Consumes(TEXT_PLAIN)
+    @Counted(name="io.microprofile.showcase.vote.api.SessionVote.updateHealthStatus.monotonic.absolute(true)",monotonic=true,absolute=true,tags="app=vote")
+    public void updateHealthStatus(@QueryParam("isAppDown") Boolean isAppDown) {
+    	healthCheckBean.setIsAppDown(isAppDown);
+    }
+
 }
