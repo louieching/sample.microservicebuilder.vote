@@ -94,8 +94,8 @@ spec:
         - name: isAppDown
           valueFrom:
             configMapKeyRef:
-              name: appdown
-              key: appdown
+              name: vappdown
+              key: vappdown
         - name: dbUsername
           valueFrom:
             secretKeyRef:
@@ -143,6 +143,11 @@ spec:
       - name: microservice-vote
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         env:
+        - name: isAppDown
+          valueFrom:
+            configMapKeyRef:
+              name: vappdown
+              key: vappdown
         - name: USERNAME
           value: admin
         - name: PASSWORD
