@@ -1,0 +1,15 @@
+{{ if and (ne .Release.IsInstall false) (ne .Values.test true) }}
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: cloudant-pv
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 4Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/var/cloudant"
+{{ end }}
